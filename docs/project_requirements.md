@@ -12,12 +12,12 @@ This setup has to consist of 3 services:
 All of the services and databases should be configured and linked via docker-compose.yaml file.
 ### Must have:
 
-Use of asyncio
-Typings
+- Use of asyncio
+- Typings
 
 ### Nice to have:
 
-Unit tests
+- Unit tests
 
 Please provide a README file describing how to run the services and other caveats.
 
