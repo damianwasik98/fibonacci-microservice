@@ -21,7 +21,7 @@ Unit tests
 
 Please provide a README file describing how to run the services and other caveats.
 
-#### Tech stack:
+### Tech stack:
 - Python 3.7
 - RabbitMQ
 - Docker, Docker-compose
