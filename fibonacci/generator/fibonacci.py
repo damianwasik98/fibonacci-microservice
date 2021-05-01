@@ -2,29 +2,15 @@
 Calculating fibonacci numbers
 '''
 import time
-from functools import lru_cache
+import sys
 
-LRU_CACHE_MAXSIZE = 1000
+import fibonacci_strategy
 
-@lru_cache(maxsize=LRU_CACHE_MAXSIZE)
-def fibonacci_result(n: int):
-    '''
-    Simple recursive function calculating fibonacci result
-
-    :param n: fibonacci sequence term
-    :type n: int
-    :return: value of fibonacci sequence term
-    :rtype: int
-    '''
-    if n <= 1:
-        return n
-    else:
-        return fibonacci_result(n - 1) + fibonacci_result(n - 2)
-
+RECURSION_LIMIT = 10**6
 
 class Fibonacci:
 
-    def __init__(self, n: int):
+    def __init__(self, n: int, strategy=fibonacci_strategy.FibonacciRecursive()):
         '''
         Object which can calculate fibonacci result for given n
         or generate a fibonacci sequence from 0 to n with delay between
@@ -34,6 +20,7 @@ class Fibonacci:
         :type n: int
         '''
         self.__n = n
+        self.strategy = strategy
 
     @property
     def n(self):
@@ -54,7 +41,7 @@ class Fibonacci:
         :return: Fibonacci result for given number
         :rtype: int
         '''
-        return fibonacci_result(self.n)
+        return self.strategy.fibonacci_result(self.n)
 
     def sequence_generator(self, delay=1):
         '''
@@ -66,10 +53,13 @@ class Fibonacci:
         :rtype: int
         '''
         for n in range(self.n + 1):
-            yield fibonacci_result(n)
+            yield self.strategy.fibonacci_result(n)
             time.sleep(delay)
 
 class EndlessFibonacci:
+
+    def __init__(self, strategy=fibonacci_strategy.FibonacciRecursive()):
+        self.strategy = strategy
 
     def sequence_generator(self, delay=1):
         '''
@@ -82,7 +72,7 @@ class EndlessFibonacci:
         '''
         n = 0
         while True:
-            result = fibonacci_result(n)
+            result = self.strategy.fibonacci_result(n)
             n += 1
             yield  result
             time.sleep(delay)
@@ -95,21 +85,28 @@ if __name__ == '__main__':
     '''
     from argparse import ArgumentParser
 
+    strategy_mapping = {
+        'recursive': fibonacci_strategy.FibonacciRecursive(),
+        'iterative': fibonacci_strategy.FibonacciIterative()
+    }
+
     arg_parser = ArgumentParser('Fibonacci sequence generator')
     arg_parser.add_argument('-n', type=int)
-    arg_parser.add_argument('--lru-cache-maxsize', default=1000, type=int)
-    arg_parser.add_argument('--delay', default=1, type=int)
+    arg_parser.add_argument('-lru', '--lru-cache-maxsize', default=None, type=int)
+    arg_parser.add_argument('-d', '--delay', default=1, type=float)
+    arg_parser.add_argument('-s', '--strategy', default='recursive', choices=strategy_mapping.keys())
 
     cli_args = arg_parser.parse_args()
 
     LRU_CACHE_MAXSIZE = cli_args.lru_cache_maxsize
+    sys.setrecursionlimit(RECURSION_LIMIT)
 
     if cli_args.n is None:
-        fibonacci = EndlessFibonacci()
+        fibonacci = EndlessFibonacci(strategy=strategy_mapping[cli_args.strategy])
         for number in fibonacci.sequence_generator(delay=cli_args.delay):
             print(number)
     else:
-        fibonacci = Fibonacci(cli_args.n)
+        fibonacci = Fibonacci(n=cli_args.n, strategy=strategy_mapping[cli_args.strategy])
         result = fibonacci.calculate()
         print(f'Result for {cli_args.n}')
         print(result)
