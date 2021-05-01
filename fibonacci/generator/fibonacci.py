@@ -34,6 +34,9 @@ class Fibonacci:
             raise ValueError('Fibonacci number must be > 0')
         
         return value
+
+    def __repr__(self):
+        return f'<{self.__class__.__name__} ({self.n})>'
     
     def calculate(self):
         '''Recursive function generating fibonacci result
@@ -60,6 +63,9 @@ class EndlessFibonacci:
 
     def __init__(self, strategy=fibonacci_strategy.FibonacciRecursive()):
         self.strategy = strategy
+    
+    def __repr__(self):
+        return f'<{self.__class__.__name__}>'
 
     def sequence_generator(self, delay=1):
         '''
@@ -95,21 +101,25 @@ if __name__ == '__main__':
     arg_parser.add_argument('-lru', '--lru-cache-maxsize', default=None, type=int)
     arg_parser.add_argument('-d', '--delay', default=1, type=float)
     arg_parser.add_argument('-s', '--strategy', default='recursive', choices=strategy_mapping.keys())
+    arg_parser.add_argument('-rl', '--recursion-limit', default=RECURSION_LIMIT, type=int)
 
     cli_args = arg_parser.parse_args()
 
     LRU_CACHE_MAXSIZE = cli_args.lru_cache_maxsize
+    RECURSION_LIMIT = cli_args.recursion_limit
+
     sys.setrecursionlimit(RECURSION_LIMIT)
 
     if cli_args.n is None:
         fibonacci = EndlessFibonacci(strategy=strategy_mapping[cli_args.strategy])
+        print(f'Starting {fibonacci} with strategy: {strategy_mapping[cli_args.strategy]}')
         for number in fibonacci.sequence_generator(delay=cli_args.delay):
             print(number)
     else:
         fibonacci = Fibonacci(n=cli_args.n, strategy=strategy_mapping[cli_args.strategy])
+        print(f'Starting {fibonacci} with strategy: {strategy_mapping[cli_args.strategy]}')
         result = fibonacci.calculate()
-        print(f'Result for {cli_args.n}')
-        print(result)
+        print(f'Result for {cli_args.n}: {result}')
         print(f'Fibonacci sequence for {cli_args.n}')
         for number in fibonacci.sequence_generator(delay=cli_args.delay):
             print(number)
