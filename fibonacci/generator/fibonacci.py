@@ -6,7 +6,9 @@ import sys
 
 import fibonacci_strategy
 
-RECURSION_LIMIT = 10**6
+from config import RECURSION_LIMIT
+
+sys.setrecursionlimit(RECURSION_LIMIT)
 
 class Fibonacci:
 
@@ -98,17 +100,10 @@ if __name__ == '__main__':
 
     arg_parser = ArgumentParser('Fibonacci sequence generator')
     arg_parser.add_argument('-n', type=int)
-    arg_parser.add_argument('-lru', '--lru-cache-maxsize', default=None, type=int)
     arg_parser.add_argument('-d', '--delay', default=1, type=float)
     arg_parser.add_argument('-s', '--strategy', default='recursive', choices=strategy_mapping.keys())
-    arg_parser.add_argument('-rl', '--recursion-limit', default=RECURSION_LIMIT, type=int)
 
     cli_args = arg_parser.parse_args()
-
-    LRU_CACHE_MAXSIZE = cli_args.lru_cache_maxsize
-    RECURSION_LIMIT = cli_args.recursion_limit
-
-    sys.setrecursionlimit(RECURSION_LIMIT)
 
     if cli_args.n is None:
         fibonacci = EndlessFibonacci(strategy=strategy_mapping[cli_args.strategy])
