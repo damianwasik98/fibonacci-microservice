@@ -114,5 +114,6 @@ class FibonacciProducer:
         self._channel.basic_publish(
             exchange=queue,
             routing_key=routing_key,
-            body=fibonacci_message.to_json()
+            body=fibonacci_message.to_json(),
+            properties=pika.BasicProperties(delivery_mode=2) # make message persistent, even if server restarts
         )
