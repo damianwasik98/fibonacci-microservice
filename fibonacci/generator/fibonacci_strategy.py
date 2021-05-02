@@ -35,7 +35,7 @@ class FibonacciRecursive(FibonacciStrategy):
 class FibonacciIterative(FibonacciStrategy):
 
     @staticmethod
-    # @lru_cache(maxsize=LRU_CACHE_MAXSIZE)
+    @lru_cache(maxsize=LRU_CACHE_MAXSIZE)
     def fibonacci_result(n: int):
         '''
         Simple iterative function calculating fibonacci result
