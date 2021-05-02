@@ -54,11 +54,11 @@ class Fibonacci:
 
         :param delay: delay between yielding next numbers, defaults to 1
         :type delay: int, optional
-        :yield: fibonacci sequence number
-        :rtype: int
+        :yield: tuple with number from fibonacci number has been generated and fibonacci result
+        :rtype: tuple
         '''
         for n in range(self.n + 1):
-            yield self.strategy.fibonacci_result(n)
+            yield (n, self.strategy.fibonacci_result(n))
             time.sleep(delay)
 
 class EndlessFibonacci:
@@ -75,12 +75,13 @@ class EndlessFibonacci:
 
         :param delay: [description], defaults to 1
         :type delay: int, optional
-        :yield: [description]
-        :rtype: [type]
+        :yield: tuple with number from fibonacci number has been generated and fibonacci result
+        :rtype: tuple
         '''
         n = 0
         while True:
             result = self.strategy.fibonacci_result(n)
+            n_from = n
             n += 1
-            yield  result
+            yield  (n_from, result)
             time.sleep(delay)
