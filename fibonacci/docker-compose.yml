@@ -1,0 +1,18 @@
+version: "3"
+
+services:
+    rabbitmq_server:
+        container_name: fibonacci_rabbitmq
+        image: rabbitmq:3-management
+        ports:
+            - 5672:${RABBITMQ_PORT}
+            - 15672:15672 
+        environment:
+            RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+            RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASS}
+    generator_service:
+        container_name: fibonacci_generator
+        build: generator
+        depends_on:
+            - rabbitmq_server
+        restart: on-failure
