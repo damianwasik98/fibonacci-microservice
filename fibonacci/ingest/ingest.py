@@ -1,13 +1,18 @@
 import datetime
+import os
+
+from dotenv import load_dotenv
 
 from models import Session, Fibonacci, FibonacciHistory
 from rabbitmq import FibonacciConsumer
 
+load_dotenv('.env')
+
 consumer = FibonacciConsumer(
-        host='localhost',
-        port='5672',
-        username='fibonacci',
-        password='fibonacci'
+        host=os.environ.get('RABBITMQ_HOST', 'localhost'),
+        port=os.environ.get('RABBITMQ_PORT', '5672'),
+        username=os.environ.get('RABBITMQ_USER', 'fibonacci'),
+        password=os.environ.get('RABBITMQ_PASS', 'fibonacci')
     )
 
 
@@ -24,4 +29,7 @@ def add_fibonacci_to_db(fibonacci_dict):
     session.commit()
 
 with Session() as session:
-    consumer.consume_fibonacci_messages(queue='fibonacci', on_consume=add_fibonacci_to_db)
+    consumer.consume_fibonacci_messages(
+        queue=os.environ.get('RABBITMQ_QUEUE', 'fibonacci'),
+        on_consume=add_fibonacci_to_db
+    )
