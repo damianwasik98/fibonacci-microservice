@@ -1,11 +1,23 @@
+import os
+
 from sqlalchemy import create_engine
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker, relationship
 from sqlalchemy import Column, Integer, DateTime, ForeignKey, String
 
+from dotenv import load_dotenv
+
 from sqlite_foreign_keys import _set_sqlite_pragma
 
-engine = create_engine('postgresql://postgres:secret@localhost:5432/postgres', echo=True)
+load_dotenv('.env')
+
+postgres_host = os.environ['POSTGRES_HOST']
+postgres_port = os.environ['POSTGRES_PORT']
+postgres_db = os.environ['POSTGRES_DB']
+postgres_user = os.environ['POSTGRES_USER']
+postgres_pass = os.environ['POSTGRES_PASS']
+
+engine = create_engine(f'postgresql://{postgres_user}:{postgres_pass}@{postgres_host}:{postgres_port}/{postgres_db}', echo=True)
 
 Base = declarative_base()
 Session = sessionmaker(bind=engine)
