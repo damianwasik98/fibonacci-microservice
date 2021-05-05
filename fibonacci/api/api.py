@@ -19,3 +19,8 @@ async def shutdown():
 async def fibonacci(number: int):
     query = Fibonacci.select().where(Fibonacci.c.number == number)
     return await database.fetch_one(query)
+
+@app.get("/fibonacci/sequence/{number}", response_model=List[schema.Fibonacci])
+async def fibonacci(number: int):
+    query = Fibonacci.select().where(Fibonacci.c.number <= number)
+    return await database.fetch_all(query)
