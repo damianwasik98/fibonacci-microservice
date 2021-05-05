@@ -2,7 +2,7 @@ from typing import List
 
 from fastapi import FastAPI
 
-from db import database
+from db import database, Fibonacci
 import schema
 
 app = FastAPI(title='Fibonacci API')
