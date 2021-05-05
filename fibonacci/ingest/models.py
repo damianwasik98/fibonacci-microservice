@@ -25,7 +25,7 @@ Session = sessionmaker(bind=engine)
 class Fibonacci(Base):
     
     __tablename__ = 'fibonacci'
-    number = Column(String, primary_key=True)
+    number = Column(Integer, primary_key=True)
     fibonacci_number = Column(String)
     fibonacci_history = relationship('FibonacciHistory', back_populates='fibonacci')
 
@@ -35,6 +35,6 @@ class FibonacciHistory(Base):
     id = Column(Integer, primary_key=True, autoincrement=True)
     date = Column(DateTime)
     fibonacci = relationship('Fibonacci', back_populates='fibonacci_history')
-    number = Column(String, ForeignKey('fibonacci.number'))
+    number = Column(Integer, ForeignKey('fibonacci.number'))
 
 Base.metadata.create_all(bind=engine)
