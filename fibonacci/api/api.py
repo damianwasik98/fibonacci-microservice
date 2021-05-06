@@ -1,6 +1,6 @@
 from typing import List
 
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 
 from db import database, Fibonacci
 import schema
@@ -30,9 +30,17 @@ async def shutdown():
 @app.get("/fibonacci/{number}", response_model=schema.Fibonacci, tags=['fibonacci'])
 async def fibonacci(number: int):
     query = Fibonacci.select().where(Fibonacci.c.number == number)
-    return await database.fetch_one(query)
+    result = await database.fetch_one(query)
+    if not result:
+        raise HTTPException(status_code=404, detail='Fibonacci number not exists in database yet')
+    else:
+        return result 
 
 @app.get("/fibonacci/sequence/{number}", response_model=List[schema.Fibonacci], tags=['fibonacci_sequence'])
 async def fibonacci(number: int):
     query = Fibonacci.select().where(Fibonacci.c.number <= number)
-    return await database.fetch_all(query)
+    result = await database.fetch_all(query)
+    if not result:
+        raise HTTPException(status_code=404, detail='Fibonacci number not exists in database yet')
+    else:
+        return result 
