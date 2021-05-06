@@ -30,7 +30,7 @@ class Fibonacci:
 
     @n.setter
     def n(self, value):
-        if not isinstance(value, int):
+        if isinstance(value, bool) or not isinstance(value, int):
             raise TypeError('Fibonacci number must be integer')
         elif value < 0:
             raise ValueError('Fibonacci number must be > 0')
