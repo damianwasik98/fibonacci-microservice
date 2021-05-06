@@ -3,6 +3,7 @@ Calculating fibonacci numbers
 '''
 import time
 import sys
+from typing import Iterator
 
 import fibonacci_strategy
 
@@ -30,25 +31,27 @@ class Fibonacci:
 
     @n.setter
     def n(self, value):
-        if not isinstance(value, int):
+        if isinstance(value, bool) or not isinstance(value, int):
             raise TypeError('Fibonacci number must be integer')
         elif value < 0:
             raise ValueError('Fibonacci number must be > 0')
         
+        self.__n = value
         return value
 
     def __repr__(self):
         return f'<{self.__class__.__name__} ({self.n})>'
     
-    def calculate(self):
-        '''Recursive function generating fibonacci result
+    def calculate(self) -> int:
+        '''
+        Calculates fibonacci number
 
         :return: Fibonacci result for given number
         :rtype: int
         '''
         return self.strategy.fibonacci_result(self.n)
 
-    def sequence_generator(self, delay=1):
+    def sequence_generator(self, delay=1) -> Iterator[int]:
         '''
         Generates next fibonacci numbers
 
@@ -69,7 +72,7 @@ class EndlessFibonacci:
     def __repr__(self):
         return f'<{self.__class__.__name__}>'
 
-    def sequence_generator(self, delay=1):
+    def sequence_generator(self, delay=1) -> Iterator[int]:
         '''
         Generates infinite fibonacci sequence
 

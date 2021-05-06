@@ -18,13 +18,15 @@ consumer = FibonacciConsumer(
 
 def add_fibonacci_to_db(fibonacci_dict):
 
-    number = str(fibonacci_dict['number'])
+    number = fibonacci_dict['number']
     fibonacci_number = str(fibonacci_dict['fibonacci_number'])
 
     fibonacci = Fibonacci(number=number, fibonacci_number=fibonacci_number)
     history = FibonacciHistory(date=datetime.datetime.now(), number=number)
 
-    session.add(fibonacci)
+    if not Fibonacci.exists(session=session, number=number):
+        print(f'Fibonacci number {number} exists in db. Ommiting')
+        session.add(fibonacci)
     session.add(history)
     session.commit()
 

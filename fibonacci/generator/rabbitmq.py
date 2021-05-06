@@ -63,7 +63,7 @@ class FibonacciProducer:
     def __repr__(self):
         return f'{self.__class__.__name__} ({self._client})'
 
-    def _connect_to_rabbitmq(self):
+    def _connect_to_rabbitmq(self) -> pika.BlockingConnection:
         '''
         Connects to RabbitMQ instance
 
@@ -93,7 +93,7 @@ class FibonacciProducer:
     def __exit__(self, exc_type, exc_value, exc_traceback):
         self.close_channel()
 
-    def publish_fib_number_to_queue(self, queue, number, fibonacci_number):
+    def publish_fib_number_to_queue(self, queue: str, number: int, fibonacci_number: int):
         '''
         Publishes fibonacci number and result to queue in specific structure
 

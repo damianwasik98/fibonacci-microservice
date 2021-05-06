@@ -15,10 +15,10 @@ strategy_mapping = {
 }
 
 arg_parser = ArgumentParser('Fibonacci sequence generator')
-arg_parser.add_argument('-n', type=int)
-arg_parser.add_argument('-d', '--delay', default=1, type=float)
-arg_parser.add_argument('-s', '--strategy', default='recursive', choices=strategy_mapping.keys())
-arg_parser.add_argument('-env', '--env-file')
+arg_parser.add_argument('-n', type=int, help='Generate sequence and finish on this number. If None, endless generation')
+arg_parser.add_argument('-d', '--delay', default=1, type=float, help='Predefined delay between generated numbers')
+arg_parser.add_argument('-s', '--strategy', default='recursive', choices=strategy_mapping.keys(), help='Strategy used to calculate fib numbers')
+arg_parser.add_argument('-env', '--env-file', help='env file name with rabbitmq connection params, if not provided script tries to connect to localhost rabbitmq with default settings')
 cli_args = arg_parser.parse_args()
 
 if cli_args.env_file:
