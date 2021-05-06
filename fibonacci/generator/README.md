@@ -31,3 +31,10 @@ optional arguments:
   -env ENV_FILE, --env-file ENV_FILE
                         env file name with rabbitmq connection params, if not provided script tries to connect to localhost rabbitmq with default settings
 ```
+
+### Tests
+
+To run tests, type from this directory
+```
+python -m pytest tests
+```
