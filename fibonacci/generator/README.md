@@ -15,6 +15,7 @@ Variables explanation:
 
 Script produces next numbers of Fibonacci's sequence and produces to RabbitMQ queue. It uses strategy pattern, you can choose to calculate recursively or iteratively. 
 It has CLI interface, so it is configurable during run.
+How to run the script you can see in Dockerfile.
 
 ```
 ❯ python generator.py -h                            
