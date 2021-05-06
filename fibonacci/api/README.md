@@ -11,6 +11,6 @@ Variables explanation:
 - `POSTGRES_USER` - PostgreSQL database user
 - `POSTGRES_PASS` - PostgreSQL database pass
 
-# Run
+## Run
 
 How to run the script you can see in Dockerfile
