@@ -35,6 +35,7 @@ class Fibonacci:
         elif value < 0:
             raise ValueError('Fibonacci number must be > 0')
         
+        self.__n = value
         return value
 
     def __repr__(self):
