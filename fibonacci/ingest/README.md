@@ -19,3 +19,4 @@ Variables explanation:
 ### Script description
 
 Script consumes Fibonacci's sequence numbers from RabbitMQ and saves into PostgreSQL database.
+How to run the script you can see in Dockerfile.
