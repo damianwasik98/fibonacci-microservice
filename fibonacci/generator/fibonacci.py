@@ -3,7 +3,7 @@ Calculating fibonacci numbers
 '''
 import time
 import sys
-from typing import Generator
+from typing import Iterator
 
 import fibonacci_strategy
 
@@ -51,7 +51,7 @@ class Fibonacci:
         '''
         return self.strategy.fibonacci_result(self.n)
 
-    def sequence_generator(self, delay=1) -> Generator[int]:
+    def sequence_generator(self, delay=1) -> Iterator[int]:
         '''
         Generates next fibonacci numbers
 
@@ -72,7 +72,7 @@ class EndlessFibonacci:
     def __repr__(self):
         return f'<{self.__class__.__name__}>'
 
-    def sequence_generator(self, delay=1) -> Generator[int]:
+    def sequence_generator(self, delay=1) -> Iterator[int]:
         '''
         Generates infinite fibonacci sequence
 
