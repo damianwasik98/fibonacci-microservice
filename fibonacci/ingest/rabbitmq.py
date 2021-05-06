@@ -1,18 +1,19 @@
 import json
+from typing import Callable
 
 import pika
 
 class FibonacciMessage:
 
-    def __init__(self, message):
+    def __init__(self, message: str):
         self.message = message
 
-    def convert_to_dict(self):
+    def convert_to_dict(self) -> dict:
         return json.loads(self.message)
 
 class FibonacciConsumer:
     
-    def __init__(self, host, port, username, password):
+    def __init__(self, host: str, port: str, username: str, password: str):
         '''
         Manipulates RabbitMQ instance. You can consume fibonacci
         sequence from queue. 
@@ -36,7 +37,7 @@ class FibonacciConsumer:
     def __repr__(self):
         return f'{self.__class__.__name__} ({self._client})'
 
-    def _connect_to_rabbitmq(self):
+    def _connect_to_rabbitmq(self) -> pika.BlockingConnection:
         '''
         Connects to RabbitMQ instance
 
@@ -54,14 +55,14 @@ class FibonacciConsumer:
         self._channel = self._client.channel()
     
 
-    def consume_fibonacci_messages(self, queue: str, on_consume):
+    def consume_fibonacci_messages(self, queue: str, on_consume: Callable[[dict], None]):
         '''
         Starts consuming messages from fibonacci queue
 
         :param queue: name of queue with fibonacci messages
         :type queue: str
         :param on_consume: callback function with gets fibonacci dictionary as an arg
-        :type on_consume: callable
+        :type on_consume: Callable
         '''
         self._create_channel()
         self._channel.queue_declare(queue=queue)
