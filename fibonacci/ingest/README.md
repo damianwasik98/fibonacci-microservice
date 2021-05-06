@@ -20,3 +20,10 @@ Variables explanation:
 
 Script consumes Fibonacci's sequence numbers from RabbitMQ and saves into PostgreSQL database.
 How to run the script you can see in Dockerfile.
+
+### Tests
+
+To run tests you type
+```
+python -m pytest tests
+```
